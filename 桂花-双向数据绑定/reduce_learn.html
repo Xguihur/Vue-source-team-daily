@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>reduce 的学习</h2>
+    <script>
+      // 学习 双向数据绑定 的前置知识
+      //       1.  基本用法：数组的reduce有两个参数，第一个是函数，第二个是初始值。第一个参数里面有两个参数，第一个参数是上一次遍历的结果或者初始值，第二个参数是当前遍历项的值。返回值是最后一项的return结果
+      const arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      const sum = arr1.reduce((sum, item) => {
+        return sum + item
+      }, 0)
+      console.log(sum)
+      // 2. 链式调用：有一个应用场景是根据数组去循环引用深层嵌套的对象，数组保留的是 对象的key。之前也写过一个函数柯里化扁平化的也是用 reduce
+      const obj = {
+        name: 'guihur',
+        age: '18',
+        msg: {
+          height: '170',
+          weight: 62.5,
+          hobit: {
+            type1: 'basketball',
+            type2: 'volleyball',
+            type3: 'ping-pong'
+          }
+        }
+      }
+      const arr2 = ['msg', 'hobit', 'type1']
+      // 通过数组拿到对象的深层引用
+      const value = arr2.reduce((target, key) => target[key], obj)
+      console.log(value)
+
+      // 3. 链式获取对象的升级操作：应用场景是 vue 的模板中，链式引用获取对象的情况，实际上可以通过 . 进行分割字符串为数组，然后再重复 2 中的过程拿到对象
+      const vueData = obj.msg.hobit.type2
+      console.log(vueData) //170
+      // 假设是在Vue 的 data 中通过这种方式取值，该如何拿到对应的值呢？
+      const templateData = 'msg.hobit.type2'
+      const arrDatas = templateData.split('.')
+      console.log(arrDatas) //['msg', 'hobit', 'type2']
+      const value1 = arrDatas.reduce((target, key) => target[key], obj)
+      console.log(value1) //volleyball
+    </script>
+  </body>
+</html>

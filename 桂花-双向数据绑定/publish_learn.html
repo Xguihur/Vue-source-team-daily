@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>实现一个简单的发布订阅模式</h1>
+    <script>
+      // 4. 实现一个简单的发布订阅模式：用类来实现，并且订阅者也是类，可以好好学习这个，结合之前的一起记录一下.构造器创建数组，包含addSub和notify。订阅者类有update方法和一个cb属性表示回调函数
+
+      // 依赖收集者
+      class Dep {
+        constructor() {
+          // 使用一下单例模式，保证只有一个数组
+          if (!this.subs) {
+            // this.subs = {}
+            this.subs = []
+          }
+        }
+        // 订阅
+        addSubs(watcher) {
+          this.subs.push(watcher)
+        }
+        // 通知
+        notify() {
+          this.subs.forEach(item => {
+            item.update()
+          })
+        }
+
+        // 下面的是自己封装的，不知道为什么就写出这样的代码了，感觉还比老师的好哈哈哈
+        // 订阅
+        // on(key, cb) {
+        //   if (!this.subs[key]) {
+        //     this.subs[key] = []
+        //   }
+        //   this.subs[key].push(cb)
+        // }
+        // 通知
+        // notify(key) {
+        //   // 拿到对象所有 key ，然后找到需要执行的那一串数组，遍历执行里面一个个数组方法
+        //   const keys = Object.keys(this.subs)
+        //   keys.map(item => {
+        //     if (item === key) {
+        //       item.map(cb => cb())
+        //     }
+        //   })
+        // }
+      }
+      class Watcher {
+        constructor(cb) {
+          // 创建类必须传一个回调函数
+          this.cb = cb
+        }
+        update() {
+          this.cb()
+        }
+      }
+
+      // 创建一下依赖者
+      const dep = new Dep()
+
+      // 创建订阅者
+      const w1 = new Watcher(() => {
+        console.log('第一个订阅者')
+      })
+      const w2 = new Watcher(() => {
+        console.log('第二个订阅者')
+      })
+      const w3 = new Watcher(() => {
+        console.log('第三个订阅者')
+      })
+
+      dep.addSubs(w1)
+      dep.addSubs(w2)
+      dep.addSubs(w3)
+
+      dep.notify()
+    </script>
+  </body>
+</html>

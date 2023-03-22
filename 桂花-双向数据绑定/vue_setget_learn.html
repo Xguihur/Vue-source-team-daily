@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>vue 是如何监听数据的变化</h1>
+    <div>姓名是：{{name}}</div>
+    <div>年龄是：{{age}}</div>
+
+    <script src="./vue_setget_learn.js"></script>
+    <script>
+      const vm = new Vue({
+        el: '#app',
+        data: {
+          name: 'zs',
+          age: 20,
+          info: {
+            a: 'a1',
+            c: 'c1'
+          }
+        }
+      })
+      console.log(vm) //这是 Vue 类的实例，里面的值有 $data属性，值是一个对象，具体操作在类的构造器中实现了
+      // console.log(vm.$data.age)
+      vm.$data.age = 9
+      // vm.$data.age = 9
+      // console.log(vm.$data.name)
+    </script>
+  </body>
+</html>
